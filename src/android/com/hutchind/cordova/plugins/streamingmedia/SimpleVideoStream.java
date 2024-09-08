@@ -71,24 +71,26 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
 	}
 
 	private void play() {
-		mProgressBar.setVisibility(View.VISIBLE);
-		Uri videoUri = Uri.parse(mVideoUrl);
-		try {
-			mVideoView.setOnCompletionListener(this);
-			mVideoView.setOnPreparedListener(this);
-			mVideoView.setOnErrorListener(this);
-			mVideoView.setVideoURI(videoUri);
-			mMediaController = new MediaController(this);
-			mMediaController.setAnchorView(mVideoView);
-			mMediaController.setMediaPlayer(mVideoView);
-			if (!mControls) {
-				mMediaController.setVisibility(View.GONE);
-			}
-			mVideoView.setMediaController(mMediaController);
-		} catch (Throwable t) {
-			Log.d(TAG, t.toString());
-		}
-	}
+        mProgressBar.setVisibility(View.VISIBLE);
+        Uri videoUri = Uri.parse(mVideoUrl);
+        try {
+            mVideoView.setOnCompletionListener(this);
+            mVideoView.setOnPreparedListener(this);
+            mVideoView.setOnErrorListener(this);
+            mVideoView.setVideoURI(videoUri);
+
+            // Використовуємо кастомний MediaController
+            mMediaController = new CustomMediaController(this);
+            mMediaController.setAnchorView(mVideoView);
+            mMediaController.setMediaPlayer(mVideoView);
+            if (!mControls) {
+                mMediaController.setVisibility(View.GONE);
+            }
+            mVideoView.setMediaController(mMediaController);
+        } catch (Throwable t) {
+            Log.d(TAG, t.toString());
+        }
+    }
 
 	private void setOrientation(String orientation) {
 		if ("landscape".equals(orientation)) {
